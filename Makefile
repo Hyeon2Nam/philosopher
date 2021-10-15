@@ -6,15 +6,15 @@
 #    By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/13 09:36:31 by hyenam            #+#    #+#              #
-#    Updated: 2021/10/05 15:39:17 by hyenam           ###   ########.fr        #
+#    Updated: 2021/10/15 11:58:26 by hyenam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC := gcc
 RM := rm -rf
-CFLAGS := -Wall -Werror -Wextra -lpthread
-SRCS = 	./main.c
+CFLAGS := -Wall -Werror -Wextra -pthread
+SRCS = 	./main.c ./philo.c
 
 OBJS = $(SRCS:.c=.o)
 
