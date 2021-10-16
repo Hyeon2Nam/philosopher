@@ -3,51 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+        */
+/*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:26:21 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/15 17:50:17 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/16 18:06:40 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void eat(void *data, pthread_mutex_t *mutex)
-{
-	char thread_name;
+void *ft_eat(void *data)
+{	
+	struct timeval p_time;
+	t_philo *philo;
 
-	thread_name = (char *)data;
-	pthread_mutex_lock(mutex);
-	printf("%s eat",thread_name);
-	pthread_mutex_unlock(mutex);
+	philo = (t_philo *)data;
+	pthread_mutex_lock(philo->mutex);
+	gettimeofday(&p_time, NULL);
+	printf("%ld %d is eating\n", p_time.tv_sec / 1000, philo->key);
+	pthread_mutex_unlock(philo->mutex);
+	return (0);
 }
 
-void think(void *data, pthread_mutex_t *mutex)
+void *ft_sleep(void *data)
 {
-	char thread_name;
+	struct timeval p_time;
+	t_philo *philo;
 
-	thread_name = (char *)data;
-	pthread_mutex_lock(mutex);
-	printf("%s think",thread_name);
-	pthread_mutex_unlock(mutex);
+	philo = (t_philo *)data;
+	pthread_mutex_lock(philo->mutex);
+	printf("%ld %d is sleeping\n", p_time.tv_sec / 1000, philo->key);
+	pthread_mutex_unlock(philo->mutex);
+	return (0);
 }
 
-void sleep(void *data, pthread_mutex_t *mutex)
+void *ft_think(void *data)
 {
-	char thread_name;
+	struct timeval p_time;
+	t_philo *philo;
 
-	thread_name = (char *)data;
-	pthread_mutex_lock(mutex);
-	printf("%s sleep",thread_name);
-	pthread_mutex_unlock(mutex);
+	philo = (t_philo *)data;
+	pthread_mutex_lock(philo->mutex);
+	printf("%ld %d is thinking\n", p_time.tv_sec / 1000, philo->key);
+	pthread_mutex_unlock(philo->mutex);
+	return (0);
 }
 
-void die(void *data, pthread_mutex_t *mutex)
+void *ft_die(void *data)
 {
-	char thread_name;
+	struct timeval p_time;
+	t_philo *philo;
 
-	thread_name = (char *)data;
-	pthread_mutex_lock(mutex);
-	printf("%s die",thread_name);
-	pthread_mutex_unlock(mutex);
+	philo = (t_philo *)data;
+	pthread_mutex_lock(philo->mutex);
+	printf("%ld %d is died\n", p_time.tv_sec / 1000, philo->key);
+	pthread_mutex_unlock(philo->mutex);
+	return (0);
 }
