@@ -6,57 +6,48 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:26:21 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/16 18:06:40 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/17 17:08:27 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *ft_eat(void *data)
-{	
-	struct timeval p_time;
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-	pthread_mutex_lock(philo->mutex);
-	gettimeofday(&p_time, NULL);
-	printf("%ld %d is eating\n", p_time.tv_sec / 1000, philo->key);
-	pthread_mutex_unlock(philo->mutex);
-	return (0);
+void ft_eat(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->forks[philo->left_fork]);
+	pthread_mutex_lock(&philo->info->forks[philo->right_fork]);
+	gettimeofday(&philo->info->time_status, NULL);
+	philo->start_eating = philo->info->start - (philo->info->time_status.tv_sec / 1000);
+	print_status(philo, philo->start_eating, "has taken a fork\n");
+	print_status(philo, philo->start_eating, "is eating\n");
+	usleep(philo->info->eat_time / 1000);
+	pthread_mutex_unlock(&philo->info->forks[philo->left_fork]);
+	pthread_mutex_unlock(&philo->info->forks[philo->right_fork]);
+	gettimeofday(&philo->info->time_status, NULL);
+	philo->end_eating = philo->info->time_status.tv_sec / 1000;
+	if (philo->info->must_eat != -1)
+		philo->eat_count++;
+	// print_status(philo, "done\n");
 }
 
-void *ft_sleep(void *data)
+void ft_sleep(t_philo *philo)
 {
-	struct timeval p_time;
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-	pthread_mutex_lock(philo->mutex);
-	printf("%ld %d is sleeping\n", p_time.tv_sec / 1000, philo->key);
-	pthread_mutex_unlock(philo->mutex);
-	return (0);
+	pthread_mutex_lock(&philo->info->action);
+	usleep(philo->info->sleep_time * 1000);
+	// print_status(philo, "is sleeping\n");
+	pthread_mutex_unlock(&philo->info->action);
 }
 
-void *ft_think(void *data)
+void ft_think(t_philo *philo)
 {
-	struct timeval p_time;
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-	pthread_mutex_lock(philo->mutex);
-	printf("%ld %d is thinking\n", p_time.tv_sec / 1000, philo->key);
-	pthread_mutex_unlock(philo->mutex);
-	return (0);
+	pthread_mutex_lock(&philo->info->action);
+	// print_status(philo, "is thinking\n");
+	pthread_mutex_unlock(&philo->info->action);
 }
 
-void *ft_die(void *data)
+void print_status(t_philo *philo, int ms, char *str)
 {
-	struct timeval p_time;
-	t_philo *philo;
-
-	philo = (t_philo *)data;
-	pthread_mutex_lock(philo->mutex);
-	printf("%ld %d is died\n", p_time.tv_sec / 1000, philo->key);
-	pthread_mutex_unlock(philo->mutex);
-	return (0);
+	pthread_mutex_lock(&philo->info->s_print);
+	printf("%d %d %s", ms, philo->key, str);
+	pthread_mutex_unlock(&philo->info->s_print);
 }

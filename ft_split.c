@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 14:45:03 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/16 14:45:15 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/17 16:12:16 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ static size_t	ft_cutnum(char const *s, char c)
 			++s;
 	}
 	return (cnt);
-}
-
-static void	ft_free(char **arr)
-{
-	int	len;
-	int	i;
-
-	len = 0;
-	while (arr[len])
-		len++;
-	i = 0;
-	while (i < len)
-		free(arr[i++]);
-	free(arr);
 }
 
 static void	do_split(char **str, char const *s, char c)
