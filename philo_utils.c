@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 17:48:03 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:29:15 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/17 21:36:32 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint64_t get_time(void)
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
 }
 
-void ft_usleep(int ms) // 초 단위 바꾸기
+void ft_usleep(int ms)
 {
 	uint64_t start;
 	
