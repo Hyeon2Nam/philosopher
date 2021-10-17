@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:20:59 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/17 21:39:01 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void *philo_action(void *data)
 	philo->info->start = get_time();
 	// while (1)
 	// {
-		ft_fork(philo);
 		ft_eat(philo);
 		// ft_sleep(philo);
 		// ft_think(philo);

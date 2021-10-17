@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:43 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:27:18 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/17 21:38:53 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void print_status(t_philo *philo, char *str);
 uint64_t get_time(void);
 void ft_usleep(int ms);
 
-void ft_fork(t_philo *philo);
 void ft_eat(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_think(t_philo *philo);
