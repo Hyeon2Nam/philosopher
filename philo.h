@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:43 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:38:53 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/19 12:38:16 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,29 @@
 #include <string.h>
 #include <stdlib.h>
 
+struct s_philo;
+
 typedef struct s_info
 {
 	pthread_mutex_t *forks;
 	pthread_mutex_t action;
 	pthread_mutex_t s_print;
 	pthread_t monitor;
-	long long start;
-	int num;
-	int die_time;
-	int eat_time;
-	int sleep_time;
+	uint64_t start;
+	uint64_t die_time;
+	uint64_t eat_time;
+	uint64_t sleep_time;
 	int must_eat;
 	int death;
+	int num;
+	struct s_philo *philos;
 } t_info;
 
 typedef struct s_philo
 {
 	pthread_t thr;
-	long long start_time;
-	long long end_eating;
+	uint64_t end_eating;
+	int is_eat;
 	int right_fork;
 	int left_fork;
 	int eat_count;
@@ -50,16 +53,20 @@ typedef struct s_philo
 int find_null(int argc, char *args[]);
 int data_parse(int argc, char *args[], int *data);
 void info_init(t_info *info, int *data);
-void create_philo(t_info *info);
+void create_thread(t_info *info);
+void create_mutex(t_info *info);
+
 void *philo_action(void *data);
+void ft_eat(t_philo *philo);
+void ft_sleep(t_philo *philo);
+void ft_think(t_philo *philo);
+
+void *monitor_action(void *data);
+void ft_exit(t_info *info);
 
 void print_status(t_philo *philo, char *str);
 uint64_t get_time(void);
 void ft_usleep(int ms);
-
-void ft_eat(t_philo *philo);
-void ft_sleep(t_philo *philo);
-void ft_think(t_philo *philo);
 
 char **ft_split(char const *s, char c);
 int ft_splitlen(char **str);

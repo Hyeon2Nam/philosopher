@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:39:01 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/19 12:34:11 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@ void *philo_action(void *data)
 
 	philo = (t_philo *)data;
 	philo->info->start = get_time();
-	// while (1)
-	// {
+	philo->end_eating = get_time();
+	while (1)
+	{
 		ft_eat(philo);
-		// ft_sleep(philo);
-		// ft_think(philo);
+		ft_sleep(philo);
+		ft_think(philo);
 		usleep(100);
-	// }
+	}
 	return (0);
 }
 
-void create_fork(t_info *info)
+void create_mutex(t_info *info)
 {
 	int i;
 
@@ -41,32 +42,30 @@ void create_fork(t_info *info)
 	pthread_mutex_init(&info->action, NULL);
 }
 
-void create_philo(t_info *info)
+void create_thread(t_info *info)
 {
-	t_philo *philo;
 	int thr_id;
 	int i;
 
-	philo = (t_philo *)malloc(sizeof(t_philo) * info->num);
+	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
 	i = -1;
 	while (++i < info->num)
 	{
-		philo[i].key = i + 1;
-		philo[i].info = info;
-		philo[i].left_fork = i;
-		philo[i].right_fork = i + 1;
+		info->philos[i].key = i + 1;
+		info->philos[i].info = info;
+		info->philos[i].left_fork = i;
+		info->philos[i].right_fork = i + 1;
 		if (i + 1 >= info->num)
-			philo[i].right_fork = 0;
-		thr_id = pthread_create(&philo[i].thr, NULL, philo_action, (void *)&philo[i]);
+			info->philos[i].right_fork = 0;
+		thr_id = pthread_create(&info->philos[i].thr, NULL, philo_action, (void *)&info->philos[i]);
 		if (thr_id < 0)
 			return;
 	}
 	i = -1;
+	pthread_create(&info->monitor, NULL, monitor_action, (void *)info);
+	pthread_join(info->monitor, NULL);
 	while (++i < info->num)
-		pthread_join(philo[i].thr, NULL);
-	free(philo);
-	// pthread_create(&info->monitor, NULL, monitor_action, (void *)philo);
-	// pthread_join(info->monitor, NULL);
+		pthread_join(info->philos[i].thr, NULL);
 }
 
 int main(int argc, char *args[])
@@ -82,9 +81,9 @@ int main(int argc, char *args[])
 	if (data_parse(argc, args, data))
 		return (-1);
 	info_init(&info, data);
-	create_fork(&info);
-	create_philo(&info);
-	if (info.death)
-		return (0);
+	create_mutex(&info);
+	create_thread(&info);
+	if (info.death == 0)
+		ft_exit(&info);
 	return (0);
 }

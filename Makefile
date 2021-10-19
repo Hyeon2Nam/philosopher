@@ -6,7 +6,7 @@
 #    By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/13 09:36:31 by hyenam            #+#    #+#              #
-#    Updated: 2021/10/17 17:48:36 by hyenam           ###   ########.fr        #
+#    Updated: 2021/10/19 11:15:19 by hyenam           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 CC := gcc
 RM := rm -rf
 CFLAGS := -Wall -Werror -Wextra -pthread
-SRCS = 	./main.c ./data_parse.c ./philo.c ./philo_utils.c \
+SRCS = 	./main.c ./data_parse.c ./philo.c ./philo_utils.c ./monitor.c\
 		./ft_atoi.c ./ft_split.c ./utils.c 
 
 OBJS = $(SRCS:.c=.o)
