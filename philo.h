@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:43 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/19 12:38:16 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/10/20 16:48:32 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_info
 
 typedef struct s_philo
 {
+	pthread_mutex_t die;
 	pthread_t thr;
 	uint64_t end_eating;
 	int is_eat;
@@ -53,15 +54,18 @@ typedef struct s_philo
 int find_null(int argc, char *args[]);
 int data_parse(int argc, char *args[], int *data);
 void info_init(t_info *info, int *data);
-void create_thread(t_info *info);
-void create_mutex(t_info *info);
+int create_thread(t_info *info);
+void *create_mutex(t_info *info);
 
 void *philo_action(void *data);
+void ft_get_fork(t_philo *philo);
 void ft_eat(t_philo *philo);
+void ft_off_fork(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_think(t_philo *philo);
 
-void *monitor_action(void *data);
+void *monitor_die(void *data);
+void *monitor_eat(void *data);
 void ft_exit(t_info *info);
 
 void print_status(t_philo *philo, char *str);
