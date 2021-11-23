@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 17:48:03 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 21:36:32 by hyenam           ###   ########.fr       */
+/*   Created: 2021/11/21 16:22:23 by hyenam            #+#    #+#             */
+/*   Updated: 2021/11/21 16:22:25 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "philo.h"
 
@@ -30,9 +31,9 @@ void ft_usleep(int ms)
 	return ;
 }
 
-void print_status(t_philo *philo, char *str)
+void print_status(t_info *info, int key, char *str)
 {
-	pthread_mutex_lock(&philo->info->s_print);
-	printf("%lld %d %s", get_time() - philo->info->start, philo->key, str);
-	pthread_mutex_unlock(&philo->info->s_print);
+	pthread_mutex_lock(&info->s_print);
+	printf("%lld %d %s", get_time() - info->start, key, str);
+	pthread_mutex_unlock(&info->s_print);
 }

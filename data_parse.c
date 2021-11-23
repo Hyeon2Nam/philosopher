@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   data_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 17:34:50 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 17:09:12 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/21 19:02:59 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void info_init(t_info *info, int data[5])
+int info_init(t_info *info, int data[5])
 {
 	// for (int i = 0; i < 5; i++)
 	// 	printf("data[%d]:%d\n", i, data[i]);
@@ -21,7 +21,9 @@ void info_init(t_info *info, int data[5])
 	info->eat_time = data[2];
 	info->sleep_time = data[3];
 	info->must_eat = data[4];
-	info->death = 0;
+	info->all_ate = 0;
+	info->die = 0;
+	return (0);
 }
 
 int data_parse(int argc, char *args[], int data[5])
