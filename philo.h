@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+        */
+/*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:43 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/21 19:45:33 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 17:34:47 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void ft_eat(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_think(t_philo *philo);
 
-void monitor(t_info *info, t_philo *philo);
+void monitor_die(t_info *info, t_philo *philo);
+int monitor_eat(t_philo *philo);
 
 void print_status(t_info *info, int key, char *str);
 uint64_t get_time(void);

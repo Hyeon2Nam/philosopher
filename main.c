@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 12:04:22 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 17:38:04 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void reset(t_info *info)
 {
-	free(info->forks);
+	int i;
+
+	i =  0;
+	while (i < info->num)
+		pthread_mutex_destroy(&info->forks[i]);
+	pthread_mutex_destroy(info->forks);
 	free(info->philos);
+	info->philos = NULL;
 }
 
 void *philo_action(void *data)
@@ -30,7 +36,7 @@ void *philo_action(void *data)
 	while (!(info->die))
 	{
 		ft_eat(philo);
-		if (info->all_ate)
+		if (info->must_eat != -1 && monitor_eat(philo))
 			break;
 		ft_sleep(philo);
 		ft_think(philo);
@@ -78,15 +84,21 @@ int create_thread(t_info *info)
 {
 	int i;
 	t_philo *philo;
-	// pthread_t monitor;
 
 	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
 	if (!info->philos)
 		return (1);
 	philo_init(info);
+
 	i = 0;
 	philo = info->philos;
 	info->start = get_time();
+	if (info->num == 1)
+	{
+		ft_usleep(info->die_time);
+		print_status(info, 1, "died\n");
+		return (0);
+	}
 	while (i < info->num)
 	{
 		info->philos[i].end_eat = get_time();
@@ -95,8 +107,7 @@ int create_thread(t_info *info)
 		i++;
 	}
 	i = -1;
-	// pthread_create(&monitor, NULL, monitor_action, info);
-	monitor(info, info->philos);
+	// monitor_die(info, info->philos);
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
 	// reset(info);
