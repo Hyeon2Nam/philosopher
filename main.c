@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 11:03:14 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 12:04:22 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void *philo_action(void *data)
 	info = philo->info;
 	if (!(philo->key % 2))
 		usleep(200);
-	info->start = get_time();
-	philo->end_eat = get_time();
 	while (!(info->die))
 	{
 		ft_eat(philo);
@@ -63,9 +61,6 @@ int philo_init(t_info *info)
 {
 	int i;
 
-	// info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
-	// if (!info->philos)
-	// 	return (1);
 	i = -1;
 	while (++i < info->num)
 	{
@@ -83,6 +78,7 @@ int create_thread(t_info *info)
 {
 	int i;
 	t_philo *philo;
+	// pthread_t monitor;
 
 	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
 	if (!info->philos)
@@ -90,19 +86,21 @@ int create_thread(t_info *info)
 	philo_init(info);
 	i = 0;
 	philo = info->philos;
+	info->start = get_time();
 	while (i < info->num)
 	{
+		info->philos[i].end_eat = get_time();
 		if (pthread_create(&(philo[i].thr), NULL, philo_action, &(philo[i])) != 0)
 			return (1);
-		// philo[i].end_eat = get_time();
-		// usleep(200);
 		i++;
 	}
 	i = -1;
-	// monitor(info, info->philos);
+	// pthread_create(&monitor, NULL, monitor_action, info);
+	monitor(info, info->philos);
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
 	// reset(info);
+
 	return (0);
 }
 

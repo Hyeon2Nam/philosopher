@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyenam <hyeon@student.42seoul.kr>          +#+  +:+       +#+        */
+/*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:23 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/21 16:22:25 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 12:08:39 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void ft_usleep(int ms)
 void print_status(t_info *info, int key, char *str)
 {
 	pthread_mutex_lock(&info->s_print);
-	printf("%lld %d %s", get_time() - info->start, key, str);
+	if (!info->die)
+		printf("%lld %d %s", get_time() - info->start, key, str);
 	pthread_mutex_unlock(&info->s_print);
 }
