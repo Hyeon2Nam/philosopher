@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 17:38:04 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 18:07:39 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void reset(t_info *info)
 {
 	int i;
 
-	i =  0;
+	i = 0;
 	while (i < info->num)
 		pthread_mutex_destroy(&info->forks[i]);
 	pthread_mutex_destroy(info->forks);
@@ -36,12 +36,15 @@ void *philo_action(void *data)
 	while (!(info->die))
 	{
 		ft_eat(philo);
-		if (info->must_eat != -1 && monitor_eat(philo))
+		if (info->must_eat != -1 && monitor_eat(info, philo))
 			break;
 		ft_sleep(philo);
 		ft_think(philo);
 		usleep(200);
 	}
+	pthread_mutex_unlock(&philo->info->forks[philo->left_fork]);
+	pthread_mutex_unlock(&philo->info->forks[philo->right_fork]);
+	pthread_mutex_unlock(&info->s_print);
 	return (0);
 }
 
@@ -107,7 +110,7 @@ int create_thread(t_info *info)
 		i++;
 	}
 	i = -1;
-	// monitor_die(info, info->philos);
+	monitor_die(info, info->philos);
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
 	// reset(info);

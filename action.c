@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:20:25 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 17:38:14 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/23 18:06:22 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void ft_eat(t_philo *philo)
 	philo->end_eat = get_time();
 	print_status(info, philo->key, "is eating\n");
 	ft_usleep((philo->info->eat_time));
-	philo->eat_count++;
 	pthread_mutex_unlock(&philo->info->eat_check);
+	philo->eat_count++;
 	pthread_mutex_unlock(&philo->info->forks[philo->left_fork]);
 	pthread_mutex_unlock(&philo->info->forks[philo->right_fork]);
 }
@@ -68,14 +68,18 @@ void monitor_die(t_info *info, t_philo *philo)
 	}
 }
 
-int monitor_eat(t_philo *philo)
+// int monitor_eat(t_info *info, t_philo *philo)
+// {
+// 	if (philo->eat_count >= info->must_eat)
+// 		 info->all_ate++; // return ();
+// 	if (info->all_ate >= info->num)
+// 		return (1);
+// 	return (0);
+// }
+
+int monitor_eat(t_info *info, t_philo *philo)
 {
-	while (philo->eat_count >= philo->info->must_eat)
-		 philo->info->all_ate++;
-	if (philo->info->all_ate == philo->info->num)
-	{
-		print_status(philo->info, philo->key, "died\n");
+	if (philo->eat_count >= info->must_eat)
 		return (1);
-	}
 	return (0);
 }
