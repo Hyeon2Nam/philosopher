@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 12:30:46 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 14:45:31 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void *philo_action(void *data)
 		usleep(200);
 	while (!(info->die))
 	{
-		if (info->must_eat != -1 && monitor_eat(info, philo))
+		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
 			break;
 		ft_eat(philo);
-		if (info->must_eat != -1 && monitor_eat(info, philo))
+		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
 			break;
 		ft_sleep(philo);
-		if (info->must_eat != -1 && monitor_eat(info, philo))
+		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
 			break;
 		ft_think(philo);
-		if (info->must_eat != -1 && monitor_eat(info, philo))
+		if ((info->must_eat > 0 && monitor_eat(info, philo)))
 			break;
 		usleep(200);
 	}
@@ -101,8 +101,6 @@ int create_thread(t_info *info)
 		return (1);
 	philo_init(info);
 
-	i = 0;
-	philo = info->philos;
 	info->start = get_time();
 	if (info->num == 1)
 	{
@@ -110,20 +108,17 @@ int create_thread(t_info *info)
 		print_status(info, 1, "died\n");
 		return (0);
 	}
-	while (i < info->num)
+	i = -1;
+	philo = info->philos;
+	while (++i < info->num)
 	{
 		info->philos[i].end_eat = get_time();
 		if (pthread_create(&(philo[i].thr), NULL, philo_action, &(philo[i])) != 0)
 			return (1);
-		i++;
 	}
+	monitor_die(info, info->philos);
+	// monitor_eat(info, info->philos);
 	i = -1;
-	// pthread_create(&monitor, NULL, monitor_die, &info);
-	// if (pthread_create(&monitor, NULL, monitor_die, &info))
-	// 	return (1);
-	// monitor_die(info, info->philos);
-	// pthread_detach(monitor);
-	// pthread_join(monitor, NULL);
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
 	// reset(info);
@@ -136,7 +131,7 @@ int main(int argc, char *args[])
 	t_info info;
 	int data[5];
 
-	memset(data, -1, sizeof(int) * 5);
+	memset(data, 0, sizeof(int) * 5);
 	if (argc > 6)
 		return (-1);
 	if (find_null(argc, args))
