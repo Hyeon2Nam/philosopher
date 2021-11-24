@@ -6,28 +6,16 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 14:45:31 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:07:55 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void reset(t_info *info)
+void	*philo_action(void *data)
 {
-	int i;
-
-	i = 0;
-	while (i < info->num)
-		pthread_mutex_destroy(&info->forks[i]);
-	pthread_mutex_destroy(info->forks);
-	free(info->philos);
-	info->philos = NULL;
-}
-
-void *philo_action(void *data)
-{
-	t_philo *philo;
-	t_info *info;
+	t_philo	*philo;
+	t_info	*info;
 
 	philo = (t_philo *)data;
 	info = philo->info;
@@ -36,29 +24,27 @@ void *philo_action(void *data)
 	while (!(info->die))
 	{
 		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
-			break;
+			break ;
 		ft_eat(philo);
 		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
-			break;
+			break ;
 		ft_sleep(philo);
 		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
-			break;
+			break ;
 		ft_think(philo);
 		if ((info->must_eat > 0 && monitor_eat(info, philo)))
-			break;
+			break ;
 		usleep(200);
 	}
-	pthread_mutex_unlock(&philo->info->forks[philo->left_fork]);
-	pthread_mutex_unlock(&philo->info->forks[philo->right_fork]);
-	pthread_mutex_unlock(&info->s_print);
 	return (0);
 }
 
-int create_mutex(t_info *info)
+int	create_mutex(t_info *info)
 {
-	int i;
+	int	i;
 
-	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num);
+	info->forks = (pthread_mutex_t *)malloc(
+			sizeof(pthread_mutex_t) * info->num);
 	if (!info->forks)
 		return (1);
 	i = 0;
@@ -72,11 +58,14 @@ int create_mutex(t_info *info)
 	return (0);
 }
 
-int philo_init(t_info *info)
+int	philo_init(t_info *info)
 {
-	int i;
+	int	i;
 
 	i = -1;
+	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
+	if (!info->philos)
+		return (1);
 	while (++i < info->num)
 	{
 		info->philos[i].key = i + 1;
@@ -89,17 +78,10 @@ int philo_init(t_info *info)
 	return (0);
 }
 
-int create_thread(t_info *info)
+int	create_thread(t_info *info)
 {
-	t_philo *philo;
-	pthread_t monitor;
-	(void)monitor;
-	int i;
-
-	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
-	if (!info->philos)
-		return (1);
-	philo_init(info);
+	t_philo	*philo;
+	int		i;
 
 	info->start = get_time();
 	if (info->num == 1)
@@ -113,23 +95,22 @@ int create_thread(t_info *info)
 	while (++i < info->num)
 	{
 		info->philos[i].end_eat = get_time();
-		if (pthread_create(&(philo[i].thr), NULL, philo_action, &(philo[i])) != 0)
+		if (pthread_create(&(philo[i].thr), NULL,
+				philo_action, &(philo[i])) != 0)
 			return (1);
 	}
 	monitor_die(info, info->philos);
-	// monitor_eat(info, info->philos);
 	i = -1;
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
-	// reset(info);
-
+	reset(info);
 	return (0);
 }
 
-int main(int argc, char *args[])
+int	main(int argc, char *args[])
 {
-	t_info info;
-	int data[5];
+	t_info	info;
+	int		data[5];
 
 	memset(data, 0, sizeof(int) * 5);
 	if (argc > 6)

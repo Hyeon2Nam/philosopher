@@ -6,24 +6,25 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 14:43:47 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/16 17:05:39 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:02:33 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int ft_isspace(char c)
+static int	ft_isspace(char c)
 {
-	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	long long res;
-	int sign;
-	int i;
+	long long	res;
+	int			sign;
+	int			i;
 
 	i = 0;
 	sign = 1;

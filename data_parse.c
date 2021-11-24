@@ -6,13 +6,13 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 17:34:50 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 14:40:16 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:01:33 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int info_init(t_info *info, int data[5])
+int	info_init(t_info *info, int data[5])
 {
 	info->num = data[0];
 	info->die_time = data[1];
@@ -26,12 +26,12 @@ int info_init(t_info *info, int data[5])
 	return (0);
 }
 
-int data_parse(int argc, char *args[], int data[5])
+int	data_parse(int argc, char *args[], int data[5])
 {
-	char **temp;
-	int cnt;
-	int i;
-	int j;
+	char	**temp;
+	int		cnt;
+	int		i;
+	int		j;
 
 	i = 0;
 	cnt = 0;
@@ -54,9 +54,9 @@ int data_parse(int argc, char *args[], int data[5])
 	return (0);
 }
 
-int find_null(int argc, char *args[])
+int	find_null(int argc, char *args[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (++i < argc)

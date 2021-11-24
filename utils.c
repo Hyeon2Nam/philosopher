@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:41:46 by hyenam            #+#    #+#             */
-/*   Updated: 2021/10/17 16:12:32 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:12:43 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	ft_free(char **arr)
 	free(arr);
 }
 
-int ft_splitlen(char **str)
+int	ft_splitlen(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
