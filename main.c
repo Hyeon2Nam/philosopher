@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 15:07:55 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:33:19 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	create_thread(t_info *info)
 	i = -1;
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
-	reset(info);
 	return (0);
 }
 
@@ -122,8 +121,11 @@ int	main(int argc, char *args[])
 	if (info_init(&info, data))
 		return (-1);
 	if (create_mutex(&info))
-		return (1);
+		reset(&info);
 	if (create_thread(&info))
-		return (-1);
+		reset(&info);
+	reset(&info);
+	while (1)
+		;
 	return (0);
 }

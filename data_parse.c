@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 17:34:50 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 15:01:33 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:17:35 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	info_init(t_info *info, int data[5])
 	info->must_eat = data[4];
 	info->all_ate = 0;
 	info->die = 0;
+	if (philo_init(info))
+		return (1);
 	return (0);
 }
 

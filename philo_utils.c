@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:23 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 15:08:51 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 15:26:53 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@ void	reset(t_info *info)
 {
 	int	i;
 
-	i = 0;
-	while (i < info->num)
-		pthread_mutex_destroy(&info->forks[i]);
-	pthread_mutex_destroy(info->forks);
-	free(info->philos);
-	info->philos = NULL;
+	i = -1;
+	if (info)
+	{
+		if (info->forks)
+		{
+			while (++i < info->num)
+				pthread_mutex_destroy(&info->forks[i]);
+			pthread_mutex_destroy(info->forks);
+		}
+		pthread_mutex_destroy(&info->s_print);
+		pthread_mutex_destroy(&info->eat_check);
+		if (info->philos)
+		{
+			free(info->philos);
+			info->philos = NULL;
+		}
+	}
 }
 
 uint64_t	get_time(void)
