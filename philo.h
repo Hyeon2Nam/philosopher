@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:43 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 17:48:05 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 12:07:10 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ struct s_philo;
 typedef struct s_info
 {
 	struct s_philo *philos;
-	pthread_mutex_t eat_check;
 	pthread_mutex_t *forks;
+	pthread_mutex_t eat_check;
 	pthread_mutex_t s_print;
 	uint64_t start;
 	uint64_t die_time;
@@ -66,7 +66,7 @@ void ft_eat(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_think(t_philo *philo);
 
-void monitor_die(t_info *info, t_philo *philo);
+void *monitor_die(void *data);
 int monitor_eat(t_info *info, t_philo *philo);
 
 void print_status(t_info *info, int key, char *str);

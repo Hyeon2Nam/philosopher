@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/23 18:07:39 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/24 12:19:50 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ void *philo_action(void *data)
 		usleep(200);
 	while (!(info->die))
 	{
+		if (info->must_eat != -1 && monitor_eat(info, philo))
+			break;
 		ft_eat(philo);
 		if (info->must_eat != -1 && monitor_eat(info, philo))
 			break;
 		ft_sleep(philo);
+		if (info->must_eat != -1 && monitor_eat(info, philo))
+			break;
 		ft_think(philo);
+		if (info->must_eat != -1 && monitor_eat(info, philo))
+			break;
 		usleep(200);
 	}
 	pthread_mutex_unlock(&philo->info->forks[philo->left_fork]);
@@ -85,8 +91,10 @@ int philo_init(t_info *info)
 
 int create_thread(t_info *info)
 {
-	int i;
 	t_philo *philo;
+	pthread_t monitor;
+	(void)monitor;
+	int i;
 
 	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num);
 	if (!info->philos)
@@ -110,7 +118,12 @@ int create_thread(t_info *info)
 		i++;
 	}
 	i = -1;
-	monitor_die(info, info->philos);
+	// pthread_create(&monitor, NULL, monitor_die, &info);
+	// if (pthread_create(&monitor, NULL, monitor_die, &info))
+	// 	return (1);
+	// monitor_die(info, info->philos);
+	// pthread_detach(monitor);
+	// pthread_join(monitor, NULL);
 	while (++i < info->num)
 		pthread_join(philo[i].thr, NULL);
 	// reset(info);
