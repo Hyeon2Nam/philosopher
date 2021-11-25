@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/25 19:47:18 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/25 20:00:07 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,11 @@ void	*philo_action(void *data)
 		usleep(200);
 	while (!(info->die))
 	{
-		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
-			break ;
 		ft_eat(philo);
 		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
 			break ;
 		ft_sleep(philo);
-		if ((info->must_eat > 0 && monitor_eat(info, philo)) || info->die)
-			break ;
 		ft_think(philo);
-		if ((info->must_eat > 0 && monitor_eat(info, philo)))
-			break ;
 		usleep(200);
 	}
 	return (0);
