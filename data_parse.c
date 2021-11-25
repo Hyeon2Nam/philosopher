@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 17:34:50 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/24 15:17:35 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/25 19:44:37 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	info_init(t_info *info, int data[5])
 	info->num = data[0];
 	info->die_time = data[1];
 	info->eat_time = data[2];
-	if (info->die_time < info->eat_time)
-		return (1);
 	info->sleep_time = data[3];
 	info->must_eat = data[4];
 	info->all_ate = 0;
