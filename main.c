@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/25 19:45:44 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/25 19:47:18 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	create_thread(t_info *info)
 	t_philo	*philo;
 	int		i;
 
+	info->start = get_time();
 	if (info->num == 1)
 	{
 		ft_usleep(info->die_time);
@@ -91,7 +92,6 @@ int	create_thread(t_info *info)
 	}
 	i = -1;
 	philo = info->philos;
-	info->start = get_time();
 	while (++i < info->num)
 	{
 		info->philos[i].end_eat = get_time();
