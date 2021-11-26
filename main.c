@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:13:27 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/25 20:00:07 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/26 13:05:27 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	create_mutex(t_info *info)
 		if (pthread_mutex_init(&info->forks[i++], NULL))
 			return (1);
 	if (pthread_mutex_init(&info->s_print, NULL))
-		return (1);
-	if (pthread_mutex_init(&info->eat_check, NULL))
 		return (1);
 	return (0);
 }
