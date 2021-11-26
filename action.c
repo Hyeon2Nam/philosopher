@@ -6,7 +6,7 @@
 /*   By: hyenam <hyenam@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:20:25 by hyenam            #+#    #+#             */
-/*   Updated: 2021/11/25 19:33:31 by hyenam           ###   ########.fr       */
+/*   Updated: 2021/11/26 13:11:46 by hyenam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	monitor_die(t_info *info, t_philo *philo)
 			{
 				print_status(info, philo[i].key, "died\n");
 				info->die = 1;
-				pthread_mutex_unlock(&info->eat_check);
 			}
 		}
 		if (info->die || info->all_ate)
